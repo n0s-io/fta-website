@@ -653,10 +653,23 @@
 
       .testimonial-video-embed {
         display: none;
+        padding: 20px 20px 0;
       }
 
       .testimonial-video.is-embed .testimonial-video-embed {
         display: block;
+      }
+
+      .testimonial-video-embed iframe {
+        display: block;
+        width: min(100%, 960px);
+        aspect-ratio: 16 / 9;
+        min-height: 420px;
+        margin: 0 auto;
+        border: 0;
+        border-radius: 18px;
+        background: #020a14;
+        box-shadow: var(--shadow);
       }
 
       .testimonial-video.is-embed .testimonial-video-link {
@@ -898,6 +911,15 @@
           padding: 0 6px;
           opacity: 0.75;
           transform: scale(0.96);
+        }
+
+        .testimonial-video-embed {
+          padding: 14px 14px 0;
+        }
+
+        .testimonial-video-embed iframe {
+          width: 100%;
+          min-height: 240px;
         }
 
         .testimonial-nav {
