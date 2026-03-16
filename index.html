@@ -911,7 +911,7 @@
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href="#top" aria-label="Freedom Traders Alliance">
-          <img src="../../source-material/FTA.jpg" alt="Logo Freedom Traders Alliance" />
+          <img src="assets/FTA.jpg" alt="Logo Freedom Traders Alliance" />
           <div class="brand-copy">
             <strong>Freedom Traders Alliance</strong>
             <span>CAP TRADING | Groupe mai-juin 2026</span>
@@ -1364,8 +1364,6 @@
           var host = window.location.hostname;
           var protocol = window.location.protocol;
           var iframe = videoCard.querySelector("#testimonial-video-iframe");
-          var fallbackTimer = null;
-          var embedConfirmed = false;
           var isLocalHost =
             protocol === "file:" ||
             host === "localhost" ||
@@ -1373,69 +1371,11 @@
             host === "" ||
             host.endsWith(".local");
 
-          function showVideoCard() {
-            videoCard.classList.remove("is-embed");
-          }
-
-          function confirmEmbed() {
-            embedConfirmed = true;
-            if (fallbackTimer) {
-              window.clearTimeout(fallbackTimer);
-              fallbackTimer = null;
-            }
-          }
-
           if (!isLocalHost && iframe) {
-            var embedUrl = new URL("https://www.youtube.com/embed/Z8JLtIdby2o");
-            embedUrl.searchParams.set("enablejsapi", "1");
-            if (window.location.origin && window.location.origin !== "null") {
-              embedUrl.searchParams.set("origin", window.location.origin);
-            }
-
-            iframe.src = embedUrl.toString();
+            iframe.src = "https://www.youtube.com/embed/Z8JLtIdby2o";
             videoCard.classList.add("is-embed");
-            fallbackTimer = window.setTimeout(function () {
-              if (!embedConfirmed) {
-                showVideoCard();
-              }
-            }, 4000);
-
-            iframe.addEventListener("error", function () {
-              showVideoCard();
-            });
-
-            window.addEventListener("message", function (event) {
-              if (
-                event.origin !== "https://www.youtube.com" &&
-                event.origin !== "https://www.youtube-nocookie.com"
-              ) {
-                return;
-              }
-
-              var data = event.data;
-              if (typeof data === "string") {
-                try {
-                  data = JSON.parse(data);
-                } catch (error) {
-                  return;
-                }
-              }
-
-              if (!data || (data.id && data.id !== iframe.id)) {
-                return;
-              }
-
-              if (
-                data.event === "onReady" ||
-                (data.event === "infoDelivery" &&
-                  data.info &&
-                  typeof data.info.playerState === "number")
-              ) {
-                confirmEmbed();
-              }
-            });
           } else {
-            showVideoCard();
+            videoCard.classList.remove("is-embed");
           }
         }
 
